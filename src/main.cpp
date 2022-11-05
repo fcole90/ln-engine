@@ -29,7 +29,7 @@ int main(int argc, char* args[]) {
     SDL_WINDOW_SHOWN
 	);
   if (!window) {
-    std::cerr << "Could not create SDL Window " << SDL_GetError() << std::endl;
+    std::cerr << "Could not create SDL Window: " << SDL_GetError() << std::endl;
     return 1;
   }
 
