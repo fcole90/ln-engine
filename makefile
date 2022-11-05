@@ -1,3 +1,9 @@
+#OBJS specifies which files to compile as part of the project
+OBJS = src/main.cpp
+
+#OBJ_NAME specifies the name of our exectuable
+OBJ_NAME = ln_engine
+
 clean:
 	rm -rf ./bin
 
@@ -5,7 +11,7 @@ bin/dev:
 	mkdir -p ./bin/dev
 
 bin/dev/ln_engine: bin/dev
-	clang++ -Wall -std=c++11 src/main.cpp -o bin/dev/ln_engine
+	clang++ -Wall -std=c++11 $(OBJS) -lSDL2 -o bin/dev/$(OBJ_NAME)
 
 build-dev: bin/dev/ln_engine
 
