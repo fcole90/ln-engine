@@ -2,12 +2,17 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
+#include "drawing/Canvas2D.h"
+
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
 
+
 int main(int argc, char* args[]) {
-  SDL_Window* window = NULL;
-  SDL_Surface* screenSurface = NULL;
+  SDL_Window* window = nullptr;
+  LNCanvas2D* canvas2D = nullptr;
+  const Uint8 bgColor[3] = {255, 255, 255};
+
   SDL_Event event;
   bool closed = false;
 
@@ -24,12 +29,12 @@ int main(int argc, char* args[]) {
     SCREEN_HEIGHT,
     SDL_WINDOW_SHOWN
 	);
-  if (window == NULL) {
+  if (!window) {
     std::cerr << "Could not create SDL Window " << SDL_GetError() << std::endl;
     return 1;
   }
 
-  screenSurface = SDL_GetWindowSurface(window);
+  canvas2D = new LNCanvas2D(window); 
 
   // Game Loop
   while (!closed) {
@@ -43,8 +48,8 @@ int main(int argc, char* args[]) {
     }
     
     // Game update
-    SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
-    SDL_UpdateWindowSurface(window);
+    canvas2D->fillRect(NULL, canvas2D->getColor(bgColor));
+    canvas2D->update();
   }
   
   SDL_DestroyWindow(window);

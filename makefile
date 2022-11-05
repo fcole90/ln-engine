@@ -1,5 +1,5 @@
 # Source files
-SRC_FILES = src/main.cpp
+SRC_FILES = src/main.cpp src/drawing/Canvas2D.cpp
 
 # Target executable name
 TARGET_NAME = ln_engine
@@ -32,7 +32,3 @@ run-dev:
 build-and-run-dev: build-dev run-dev
 
 rebuild-and-run-dev: clean build-and-run-dev
-
-
-
-
