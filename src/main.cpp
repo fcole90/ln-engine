@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include "drawing/Canvas2D.h"
+#include "drawing/Colors.h"
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
@@ -11,8 +12,6 @@
 int main(int argc, char* args[]) {
   SDL_Window* window = nullptr;
   LNCanvas2D* canvas2D = nullptr;
-  const Uint8 bgColor[3] = {255, 255, 255};
-
   SDL_Event event;
   bool closed = false;
 
@@ -48,7 +47,7 @@ int main(int argc, char* args[]) {
     }
     
     // Game update
-    canvas2D->fillRect(NULL, canvas2D->getColor(bgColor));
+    canvas2D->fillRect(NULL, canvas2D->getColor(Colors::White));
     canvas2D->update();
   }
   
