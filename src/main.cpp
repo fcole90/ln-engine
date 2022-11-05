@@ -1,7 +1,9 @@
 #include <iostream>
-#include <SDL2/SDL.h>
-#include <stdio.h>
+#include <string>
 
+#include <SDL2/SDL.h>
+
+#include "core/Core.h"
 #include "drawing/Canvas2D.h"
 #include "drawing/Colors.h"
 
@@ -10,32 +12,14 @@
 
 
 int main(int argc, char* args[]) {
-  SDL_Window* window = nullptr;
-  LNCanvas2D* canvas2D = nullptr;
-  SDL_Event event;
-  bool closed = false;
-
-  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-    std::cerr << "Could not initialize SDL2: " << SDL_GetError() << std::endl;
-    return 1;
-  }
-
-  window = SDL_CreateWindow(
-    "hello_sdl2",
-    SDL_WINDOWPOS_UNDEFINED, 
-    SDL_WINDOWPOS_UNDEFINED,
-    SCREEN_WIDTH, 
-    SCREEN_HEIGHT,
-    SDL_WINDOW_SHOWN
-	);
-  if (!window) {
-    std::cerr << "Could not create SDL Window: " << SDL_GetError() << std::endl;
-    return 1;
-  }
-
-  canvas2D = new LNCanvas2D(window); 
+  auto core = new LNCore("LN Engine Test", SCREEN_WIDTH, SCREEN_HEIGHT);
+  core->init();
+  
+  auto canvas2D = new LNCanvas2D(core->getWindow()); 
 
   // Game Loop
+  SDL_Event event;
+  bool closed = false;
   while (!closed) {
     // Events management
     while (SDL_PollEvent(&event)) {
@@ -50,8 +34,6 @@ int main(int argc, char* args[]) {
     canvas2D->fillRect(NULL, canvas2D->getColor(Colors::White));
     canvas2D->update();
   }
-  
-  SDL_DestroyWindow(window);
-  SDL_Quit();
-  return 0;
+
+  return core->close();
 }
