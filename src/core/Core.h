@@ -15,6 +15,7 @@ public:
   SDL_Window * getWindow();
   ~LNCore();
   int init();
+  int loop();
   int close();
 };
 
