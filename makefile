@@ -41,4 +41,7 @@ lint-update-compile-commands:
 	make clean; bear -- make build-dev
 
 lint: compile_commands.json
+	clang-tidy -system-headers $(SRC_FILES)
+
+lint-fix: compile_commands.json
 	clang-tidy -fix-errors -system-headers $(SRC_FILES)
