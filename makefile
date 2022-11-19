@@ -32,3 +32,11 @@ run-dev:
 build-and-run-dev: build-dev run-dev
 
 rebuild-and-run-dev: clean build-and-run-dev
+
+# --- Linting ---
+# Generates a compile commands file from recording a make execution.
+compile_commands.json:
+	lint-update-compile-commands
+
+lint-update-compile-commands:
+	make clean; bear -- make build-dev

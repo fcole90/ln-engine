@@ -27,3 +27,14 @@ Then, you can use the following to clean, rebuild and run:
 ```sh
 make rebuild-and-run-dev
 ```
+
+#### Linting and dev environment
+
+You also need the following:
+
+```sh
+sudo apt install bear clangd
+```
+
+- `bear` is needed to produce the `compile_commands.json` file needed by `clang-tidy` for linting
+- `clangd` is needed to enable the omonimous extension on VS Code.
