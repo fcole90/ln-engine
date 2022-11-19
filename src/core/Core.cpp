@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "Core.h"
-#include "../drawing/Canvas2D.h"
 #include "../drawing/Colors.h"
 
 
@@ -10,7 +9,11 @@ LNCore::LNCore(std::string window_name, int width, int height) {
   LNCore::window_name = window_name;
   LNCore::width = width;
   LNCore::height = height;
+  LNCore::isLoop = true;
 }
+
+
+
 
 int LNCore::init() {
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -31,22 +34,60 @@ int LNCore::init() {
     return 1;
   }
 
+  LNCore::canvas = new LNCanvas2D(LNCore::window);
+
+  return 0;
+}
+
+
+int LNCore::handleInput() {
+  // Events management
+  SDL_Event event;
+    while (SDL_PollEvent(&event)) {
+      switch (event.type) {
+        case SDL_QUIT:
+          LNCore::isLoop = false;
+          break;
+        
+        // case SDL_KEYDOWN:
+        //   // Handle input
+        //   switch( event.key.keysym.sym ){
+        //     case SDLK_UP:
+        //       rect.y -= speed;
+        //       break;
+
+        //     case SDLK_DOWN:
+        //       rect.y += speed;
+        //       break;
+
+        //     case SDLK_LEFT:
+        //       rect.x -= speed;
+        //       break;
+
+        //     case SDLK_RIGHT:
+        //       rect.x += speed;
+        //       break;
+        //   }
+      }
+    }
+  
   return 0;
 }
 
 
 int LNCore::loop() {
-  auto canvas2D = new LNCanvas2D(LNCore::getWindow()); 
+  auto canvas2D = LNCore::canvas;
+  auto objectList = LNCore::objectList;
 
   // Create Player
-  auto rect = SDL_Rect();
-  rect.w = 32;
-  rect.h = 32;
-  rect.x = LNCore::width / 2;
-  rect.y = LNCore::height / 2;
-  int speed = 3;
+  // auto rect = SDL_Rect();
+  // rect.w = 32;
+  // rect.h = 32;
+  // rect.x = LNCore::width / 2;
+  // rect.y = LNCore::height / 2;
+  // int speed = 3;
 
-  SDL_Event event;
+  
 
   // Time variables
   Uint32 delta = 0;
@@ -54,53 +95,34 @@ int LNCore::loop() {
   Uint32 current_update = 1;
 
   // Game Loop
-  bool closed = false;
-  while (!closed) {
+  while (LNCore::isLoop) {
     // Keep track of time
     last_update = current_update;
     current_update = SDL_GetTicks();
     delta = current_update - last_update;
 
+    LNCore::handleInput();
+
     // Report update
     std::cout << "FPS: " << 1.0 / delta * 1000 << std::endl;
 
-    // Events management
-    while (SDL_PollEvent(&event)) {
-      switch (event.type) {
-        case SDL_QUIT:
-          closed = true;
-          break;
-        
-        case SDL_KEYDOWN:
-          // Handle input
-          switch( event.key.keysym.sym ){
-            case SDLK_UP:
-              rect.y -= speed;
-              break;
-
-            case SDLK_DOWN:
-              rect.y += speed;
-              break;
-
-            case SDLK_LEFT:
-              rect.x -= speed;
-              break;
-
-            case SDLK_RIGHT:
-              rect.x += speed;
-              break;
-          }
-      }
-    }
+    
 
     // Game update
     canvas2D->fillRect(NULL, canvas2D->getColor(Colors::White));
-    canvas2D->fillRect(&rect, canvas2D->getColor(Colors::Red));
+    
+    // Update objects
+    for(auto gameObject : objectList) {
+      gameObject->onUpdate(5);
+    }
+
+    // canvas2D->fillRect(&rect, canvas2D->getColor(Colors::Red));
     canvas2D->update();
 
     // Frame limiter
     // SDL_Delay(1000.0 / FRAME_LIMIT - (SDL_GetTicks() - current_update));
   }
+  return 0;
 };
 
 
@@ -108,9 +130,4 @@ int LNCore::close() {
   SDL_DestroyWindow(LNCore::window);
   SDL_Quit();
   return 0;
-}
-
-
-SDL_Window * LNCore::getWindow() {
-  return LNCore::window;
 }
