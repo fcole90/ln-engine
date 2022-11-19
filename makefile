@@ -8,7 +8,7 @@ TARGET_NAME = ln_engine
 CC = clang++
 
 #Compiler Flags
-COMPILER_FLAGS = -Wall -std=c++11
+COMPILER_FLAGS = -Wall -std=c++20
 
 # Linker Flags
 LINKER_FLAGS = -lSDL2
