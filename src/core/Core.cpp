@@ -1,19 +1,16 @@
-#include <iostream>
-
 #include "Core.h"
+
+#include <iostream>
+#include <utility>
+
 #include "../drawing/Colors.h"
 
-
-LNCore::LNCore(std::string window_name, int width, int height) {
-  LNCore::window = nullptr;
-  LNCore::window_name = window_name;
-  LNCore::width = width;
-  LNCore::height = height;
-  LNCore::isLoop = true;
-}
-
-
-
+LNCore::LNCore(std::string window_name, int width, int height)
+    : isLoop(true),
+      window(nullptr),
+      window_name(std::move(window_name)),
+      width(width),
+      height(height) {}
 
 int LNCore::init() {
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -109,8 +106,8 @@ int LNCore::loop() {
     
 
     // Game update
-    canvas2D->fillRect(NULL, canvas2D->getColor(Colors::White));
-    
+    canvas2D->fillRect(nullptr, canvas2D->getColor(Colors::White));
+
     // Update objects
     for(auto gameObject : objectList) {
       gameObject->onUpdate(5);

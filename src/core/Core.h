@@ -26,7 +26,7 @@ private:
   int height;
 
   // Canvas
-  LNCanvas2D * canvas;
+  LNCanvas2D *canvas{};
 
   // Input
   std::map<int, bool> keyPressed;

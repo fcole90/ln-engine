@@ -1,13 +1,9 @@
 #include "Canvas2D.h"
 
-
 LNCanvas2D::LNCanvas2D(SDL_Window *window)
-{
-  LNCanvas2D::window = window;
-  LNCanvas2D::surface = SDL_GetWindowSurface(window);
-}
+    : surface(SDL_GetWindowSurface(window)), window(window) {}
 
-LNCanvas2D::~LNCanvas2D() {}
+LNCanvas2D::~LNCanvas2D() = default;
 
 SDL_Surface * LNCanvas2D::getSurface()
 {
