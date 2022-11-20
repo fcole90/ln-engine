@@ -6,9 +6,9 @@
 #include "./drawing/Colors.h"
 #include "core/Core.h"
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
-#define FRAME_LIMIT 60
+constexpr auto SCREEN_WIDTH = 640;
+constexpr auto SCREEN_HEIGHT = 480;
+// constexpr auto FRAME_LIMIT = 60;
 
 class Rect : public GameObject {
 private:
@@ -22,14 +22,17 @@ public:
   Rect(LNCore *core, int posX, int posY, int width, int height)
       : posX(posX), posY(posY), width(width), height(height), core(core) {}
 
-  ~Rect() override = default;
+  void center() {
+    posX = core->getWindowWidth() / 2;
+    posY = core->getWindowHeight() / 2;
+  }
 
   int onUpdate(int eps) override {
     auto rect = SDL_Rect();
-    rect.w = 32;
-    rect.h = 32;
-    rect.x = core->getWindowWidth() / 2;
-    rect.y = core->getWindowHeight() / 2;
+    rect.w = width;
+    rect.h = height;
+    rect.x = posX;
+    rect.y = posY;
 
     auto canvas2D = Rect::core->getCanvas();
     canvas2D->fillRect(&rect, canvas2D->getColor(Colors::Red));
@@ -61,10 +64,12 @@ public:
 int main(int argc, char *args[]) {
 
   auto core = new LNCore("LN Engine Test", SCREEN_WIDTH, SCREEN_HEIGHT);
-  auto rect = new Rect(core, 0, 0, 0, 0);
+  Rect rect = Rect(core, 0, 0, 0, 0);
   core->init();
-  rect->onUpdate(500);
-  core->addObject((GameObject *)rect);
+  rect.center();
+  constexpr auto tmp_eps = 500;
+  rect.onUpdate(tmp_eps);
+  core->addObject(&rect);
   core->loop();
   return core->close();
 }
