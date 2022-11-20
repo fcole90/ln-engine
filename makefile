@@ -33,6 +33,10 @@ build-and-run-dev: build-dev run-dev
 
 rebuild-and-run-dev: clean build-and-run-dev
 
+# Code generation
+generate_colors:
+	python3 scripts/generate_css_colors.py
+
 # --- Linting ---
 # Generates a compile commands file from recording a make execution.
 compile_commands.json:
