@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include <string>
 
 #include <SDL2/SDL.h>
@@ -64,12 +65,14 @@ public:
 int main(int argc, char *args[]) {
 
   auto core = new LNCore("LN Engine Test", SCREEN_WIDTH, SCREEN_HEIGHT);
-  Rect rect = Rect(core, 0, 0, 0, 0);
   core->init();
-  rect.center();
-  constexpr auto tmp_eps = 500;
-  rect.onUpdate(tmp_eps);
-  core->addObject(&rect);
+  {
+    auto rect = std::make_unique<Rect>(Rect(core, 0, 0, 0, 0));
+    rect->center();
+    core->addObject(rect.get());
+    rect = nullptr;
+  }
+
   core->loop();
   return core->close();
 }

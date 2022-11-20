@@ -4,7 +4,6 @@
 #include "../drawing/Canvas2D.h"
 #include <SDL2/SDL.h>
 #include <map>
-#include <memory>
 #include <string>
 #include <vector>
 
