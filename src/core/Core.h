@@ -4,6 +4,7 @@
 #include "../drawing/Canvas2D.h"
 #include <SDL2/SDL.h>
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -32,7 +33,7 @@ private:
   int height;
 
   // Canvas
-  LNCanvas2D *canvas{};
+  LNCanvas2D canvas = nullptr;
 
   // Input
   std::map<int, bool> keyPressed;
@@ -53,7 +54,7 @@ public:
   // Getters
   int getWindowHeight() { return LNCore::height; }
   int getWindowWidth() { return LNCore::width; }
-  LNCanvas2D *getCanvas() { return LNCore::canvas; }
+  LNCanvas2D *getCanvas() { return &(LNCore::canvas); }
 };
 
 #endif
