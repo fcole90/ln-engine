@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "../drawing/Colors.h"
+#include <SDL2/SDL_events.h>
 #include <iostream>
 
 LNCore::LNCore(std::string window_name, int width, int height)
@@ -36,25 +37,12 @@ int LNCore::handleInput() {
       LNCore::isLoop = false;
       break;
 
-      // case SDL_KEYDOWN:
-      //   // Handle input
-      //   switch( event.key.keysym.sym ){
-      //     case SDLK_UP:
-      //       rect.y -= speed;
-      //       break;
-
-      //     case SDLK_DOWN:
-      //       rect.y += speed;
-      //       break;
-
-      //     case SDLK_LEFT:
-      //       rect.x -= speed;
-      //       break;
-
-      //     case SDLK_RIGHT:
-      //       rect.x += speed;
-      //       break;
-      //   }
+    case SDL_KEYDOWN:
+      LNCore::keyPressed[event.key.keysym.sym] = true;
+      break;
+    case SDL_KEYUP:
+      LNCore::keyPressed[event.key.keysym.sym] = false;
+      break;
     }
   }
 
@@ -64,14 +52,6 @@ int LNCore::handleInput() {
 int LNCore::loop() {
   auto canvas2D = LNCore::canvas;
   auto objectList = LNCore::objectList;
-
-  // Create Player
-  // auto rect = SDL_Rect();
-  // rect.w = 32;
-  // rect.h = 32;
-  // rect.x = LNCore::width / 2;
-  // rect.y = LNCore::height / 2;
-  // int speed = 3;
 
   // Time variables
   Uint32 delta = 0;
@@ -96,7 +76,7 @@ int LNCore::loop() {
 
     // Update objects
     for (auto gameObject : objectList) {
-      constexpr auto tmp_eps = 5;
+      constexpr auto tmp_eps = 1;
       gameObject->onUpdate(tmp_eps);
     }
 

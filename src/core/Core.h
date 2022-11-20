@@ -10,7 +10,7 @@
 class GameObject {
 public:
   GameObject() = default;                            // 0. Default constructor
-  virtual ~GameObject() = 0;                         // 1. Destructor
+  virtual ~GameObject() = default;                   // 1. Destructor
   GameObject(const GameObject &other) = default;     // 2. Copy constructor
   GameObject(GameObject &&other) noexcept = default; // 3. Move constructor
   GameObject &
@@ -32,7 +32,7 @@ private:
   int height;
 
   // Canvas
-  LNCanvas2D canvas = nullptr;
+  LNCanvas2D canvas{nullptr};
 
   // Input
   std::map<int, bool> keyPressed;
@@ -54,6 +54,7 @@ public:
   int getWindowHeight() { return LNCore::height; }
   int getWindowWidth() { return LNCore::width; }
   LNCanvas2D *getCanvas() { return &(LNCore::canvas); }
+  std::map<int, bool> *getKeyPressed() { return &(LNCore::keyPressed); }
 };
 
 #endif

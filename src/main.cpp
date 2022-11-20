@@ -1,4 +1,7 @@
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_keycode.h>
 #include <iostream>
+#include <iterator>
 #include <memory>
 #include <string>
 
@@ -35,28 +38,37 @@ public:
     rect.x = posX;
     rect.y = posY;
 
+    const auto speed = 1;
+
+    auto keys = core->getKeyPressed();
+    // SDL_Event event;
+    if ((*keys)[SDLK_UP]) {
+      posY -= speed;
+    }
+
+    if ((*keys)[SDLK_DOWN]) {
+      posY += speed;
+    }
+
+    if ((*keys)[SDLK_LEFT]) {
+      posX -= speed;
+    }
+
+    if ((*keys)[SDLK_RIGHT]) {
+      posX += speed;
+    }
+
     auto canvas2D = Rect::core->getCanvas();
     canvas2D->fillRect(&rect, canvas2D->getColor(Colors::Red));
-    std::cout << "Rect update: " << eps << std::endl;
-
-    // // Handle input
-    // switch( event.key.keysym.sym ){
-    //   case SDLK_UP:
-    //     rect.y -= speed;
-    //     break;
-
-    //   case SDLK_DOWN:
-    //     rect.y += speed;
-    //     break;
-
-    //   case SDLK_LEFT:
-    //     rect.x -= speed;
-    //     break;
-
-    //   case SDLK_RIGHT:
-    //     rect.x += speed;
-    //     break;
-    // }
+    std::cout << "keys: ";
+    if (keys->size() == 0) {
+      std::cout << "[empty]" << std::endl;
+    } else {
+      for (auto key : *keys) {
+        std::cout << key.first << ": " << key.second << ", ";
+      }
+      std::cout << std::endl;
+    }
 
     return 0;
   }
@@ -66,12 +78,9 @@ int main(int argc, char *args[]) {
 
   auto core = new LNCore("LN Engine Test", SCREEN_WIDTH, SCREEN_HEIGHT);
   core->init();
-  {
-    auto rect = std::make_unique<Rect>(Rect(core, 0, 0, 0, 0));
-    rect->center();
-    core->addObject(rect.get());
-    rect = nullptr;
-  }
+  auto rect = Rect(core, 0, 0, 15, 15);
+  rect.center();
+  core->addObject(&rect);
 
   core->loop();
   return core->close();
