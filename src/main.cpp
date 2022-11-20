@@ -22,7 +22,7 @@ public:
   Rect(LNCore *core, int posX, int posY, int width, int height)
       : posX(posX), posY(posY), width(width), height(height), core(core) {}
 
-  ~Rect() = default;
+  ~Rect() override = default;
 
   int onUpdate(int eps) override {
     auto rect = SDL_Rect();
