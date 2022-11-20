@@ -1,4 +1,13 @@
 {
+  "clangd.detectExtensionConflicts": true,
+  "clangd.arguments": [
+    "--clang-tidy"
+  ],
+  "C_Cpp.default.browse.path": [
+    ".",
+    "/usr/include"
+  ],
+  "editor.formatOnSave": true,
   "files.associations": {
     "array": "cpp",
     "atomic": "cpp",
