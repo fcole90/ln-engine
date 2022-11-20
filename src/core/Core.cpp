@@ -6,11 +6,7 @@
 #include "../drawing/Colors.h"
 
 LNCore::LNCore(std::string window_name, int width, int height)
-    : isLoop(true),
-      window(nullptr),
-      window_name(std::move(window_name)),
-      width(width),
-      height(height) {}
+    : window_name(std::move(window_name)), width(width), height(height) {}
 
 int LNCore::init() {
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {

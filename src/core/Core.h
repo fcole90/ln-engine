@@ -16,23 +16,23 @@ class GameObject {
 class LNCore
 {
 private:
-  // Env 
-  bool isLoop;
+  // Env
+ bool isLoop{true};
 
-  // Window
-  SDL_Window *window;
-  std::string window_name;
-  int width;
-  int height;
+ // Window
+ SDL_Window *window{nullptr};
+ std::string window_name;
+ int width;
+ int height;
 
-  // Canvas
-  LNCanvas2D *canvas{};
+ // Canvas
+ LNCanvas2D *canvas{};
 
-  // Input
-  std::map<int, bool> keyPressed;
+ // Input
+ std::map<int, bool> keyPressed;
 
-  // Object List
-  std::vector<GameObject *> objectList;
+ // Object List
+ std::vector<GameObject *> objectList;
 
 public:
   LNCore(std::string window_name, int width, int height);
