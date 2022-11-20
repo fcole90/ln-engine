@@ -35,13 +35,14 @@ rebuild-and-run-dev: clean build-and-run-dev
 
 # --- Linting ---
 # Generates a compile commands file from recording a make execution.
-compile_commands.json: lint-update-compile-commands
+compile_commands.json:
+	make lint-update-compile-commands
 
 lint-update-compile-commands:
-	make clean; bear -- make build-dev
+	make clean; bear --config bear.json -- make build-dev
 
 lint: compile_commands.json
-	clang-tidy -system-headers $(SRC_FILES)
+	clang-tidy -header-filter=.* $(SRC_FILES)
 
 lint-fix: compile_commands.json
-	clang-tidy -fix-errors -system-headers $(SRC_FILES)
+	clang-tidy -fix-errors -header-filter=.* $(SRC_FILES)
