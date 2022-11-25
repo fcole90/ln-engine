@@ -7,8 +7,8 @@
 
 #include <SDL2/SDL.h>
 
-#include "./drawing/Colors.h"
-#include "core/Core.h"
+#include "../core/Core.h"
+#include "../drawing/Colors.h"
 
 constexpr auto SCREEN_WIDTH = 640;
 constexpr auto SCREEN_HEIGHT = 480;

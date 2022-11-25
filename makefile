@@ -1,5 +1,5 @@
 # Source files
-SRC_FILES = src/main.cpp src/core/Core.cpp src/drawing/Canvas2D.cpp
+SRC_FILES = src/test_game/main.cpp src/core/Core.cpp src/drawing/Canvas2D.cpp
 
 # Target executable name
 TARGET_NAME = ln_engine

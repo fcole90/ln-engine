@@ -2,23 +2,11 @@
 #define LNCORE_H
 
 #include "../drawing/Canvas2D.h"
+#include "./GameObject.h"
 #include <SDL2/SDL.h>
 #include <map>
 #include <string>
 #include <vector>
-
-class GameObject {
-public:
-  GameObject() = default;                            // 0. Default constructor
-  virtual ~GameObject() = default;                   // 1. Destructor
-  GameObject(const GameObject &other) = default;     // 2. Copy constructor
-  GameObject(GameObject &&other) noexcept = default; // 3. Move constructor
-  GameObject &
-  operator=(const GameObject &other) = default;       // 4. Copy assignment
-  GameObject &operator=(GameObject &&other) noexcept; // 5. Move assignment
-
-  virtual int onUpdate(int eps) = 0;
-};
 
 class LNCore {
 private:
