@@ -8,58 +8,56 @@
 #include <SDL2/SDL.h>
 
 #include "../core/Core.h"
+#include "../core/GameObject.h"
 #include "../drawing/Colors.h"
 
 constexpr auto SCREEN_WIDTH = 640;
 constexpr auto SCREEN_HEIGHT = 480;
 // constexpr auto FRAME_LIMIT = 60;
 
-class Rect : public GameObject {
-private:
-  int posX;
-  int posY;
-  int width;
-  int height;
-  LNCore *core;
+class MyRect : public LNObjects::RectangleComponent {
 
 public:
-  Rect(LNCore *core, int posX, int posY, int width, int height)
-      : posX(posX), posY(posY), width(width), height(height), core(core) {}
+  MyRect(LNCore *core, float x, float y, float w, float h,
+         std::array<Uint8, 4> color)
+      : RectangleComponent(core, x, y, w, h, color){};
 
   void center() {
-    posX = core->getWindowWidth() / 2;
-    posY = core->getWindowHeight() / 2;
+    rect.position.x = core->getWindowWidth() / 2;
+    rect.position.y = core->getWindowHeight() / 2;
   }
 
-  int onUpdate(int eps) override {
-    auto rect = SDL_Rect();
-    rect.w = width;
-    rect.h = height;
-    rect.x = posX;
-    rect.y = posY;
+  void render() {}
 
-    const auto speed = 1;
+  int onUpdate(int eps) override {
+    auto sdlRect = SDL_Rect();
+    sdlRect.w = rect.size.x;
+    sdlRect.h = rect.size.y;
+    sdlRect.x = rect.position.x;
+    sdlRect.y = rect.position.y;
+
+    const auto speed = 1.0;
 
     auto keys = core->getKeyPressed();
     // SDL_Event event;
     if ((*keys)[SDLK_UP]) {
-      posY -= speed;
+      rect.position.y -= speed;
     }
 
     if ((*keys)[SDLK_DOWN]) {
-      posY += speed;
+      rect.position.y += speed;
     }
 
     if ((*keys)[SDLK_LEFT]) {
-      posX -= speed;
+      rect.position.x -= speed;
     }
 
     if ((*keys)[SDLK_RIGHT]) {
-      posX += speed;
+      rect.position.x += speed;
     }
 
-    auto canvas2D = Rect::core->getCanvas();
-    canvas2D->fillRect(&rect, canvas2D->getColor(Colors::Red));
+    auto canvas2D = core->getCanvas();
+    canvas2D->fillRect(&sdlRect, canvas2D->getColor(Colors::Red));
     std::cout << "keys: ";
     if (keys->size() == 0) {
       std::cout << "[empty]" << std::endl;
@@ -78,9 +76,9 @@ int main(int argc, char *args[]) {
 
   auto core = new LNCore("LN Engine Test", SCREEN_WIDTH, SCREEN_HEIGHT);
   core->init();
-  auto rect = Rect(core, 0, 0, 15, 15);
-  rect.center();
-  core->addObject(&rect);
+  auto rectComponent = MyRect(core, 0, 0, 15, 15, Colors::Red);
+  rectComponent.center();
+  core->addObject(&rectComponent);
 
   core->loop();
   return core->close();

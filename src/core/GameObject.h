@@ -1,17 +1,24 @@
 #ifndef LNGAME_OBJECT_H
 #define LNGAME_OBJECT_H
 
-class GameObject {
-public:
-  GameObject() = default;                            // 0. Default constructor
-  virtual ~GameObject() = default;                   // 1. Destructor
-  GameObject(const GameObject &other) = default;     // 2. Copy constructor
-  GameObject(GameObject &&other) noexcept = default; // 3. Move constructor
-  GameObject &
-  operator=(const GameObject &other) = default;       // 4. Copy assignment
-  GameObject &operator=(GameObject &&other) noexcept; // 5. Move assignment
+#include "../drawing/Geometry.h"
+#include "./Core.h"
+#include <array>
 
-  virtual int onUpdate(int eps) = 0;
+namespace LNObjects {
+
+class RectangleComponent : public GameObject {
+protected:
+  LNCore *core;
+  Geometry::Rectangle rect;
+  std::array<Uint8, 4> color;
+
+public:
+  RectangleComponent(LNCore *core, float x, float y, float w, float h,
+                     std::array<Uint8, 4> color)
+      : core(core), rect(x, y, w, h), color(color){};
 };
+
+} // namespace LNObjects
 
 #endif
