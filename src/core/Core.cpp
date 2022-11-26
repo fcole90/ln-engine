@@ -57,14 +57,17 @@ int LNCore::loop() {
     canvas2D.fillRect(nullptr, canvas2D.getColor(Colors::White));
 
     // Update objects
-    for (auto gameObject : objectList) {
+    for (auto gameComponent : objectList) {
       constexpr auto tmp_eps = 1;
-      gameObject->onUpdate(tmp_eps);
+      gameComponent->onUpdate(tmp_eps);
     }
 
     // Render objects
-    for (auto gameObject : objectList) {
-      render(gameObject);
+    for (auto gameComponent : objectList) {
+      auto graphicComponent = dynamic_cast<GraphicComponent2D *>(gameComponent);
+      if (graphicComponent) {
+        graphicComponent->render();
+      }
     }
 
     // Update canvas frame

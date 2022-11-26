@@ -2,7 +2,6 @@
 #include <iostream>
 
 void LNComponents::RectangleComponent::render() {
-  std::cout << "Rendering RectangleComponent" << std::endl;
   SDL_Rect sdlRect;
   sdlRect.w = rect.size.x;
   sdlRect.h = rect.size.y;
