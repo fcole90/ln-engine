@@ -13,17 +13,19 @@
 
 constexpr auto SCREEN_WIDTH = 640;
 constexpr auto SCREEN_HEIGHT = 480;
-// constexpr auto FRAME_LIMIT = 60;
+constexpr auto RECT_SIZE = 15;
+constexpr auto DIST_FROM_BORDER = 5;
 
-class MyRect : public LNComponents::RectangleComponent {
+class ConcreteRect : public LNComponents::RectangleComponent {
+  using RectangleComponent::RectangleComponent;
+
+  int onUpdate(int eps) override { return 0; };
+};
+
+class ControlledRect : public LNComponents::RectangleComponent {
   using RectangleComponent::RectangleComponent;
 
 public:
-  void center() {
-    rect.position.x = core->getWindowWidth() / 2;
-    rect.position.y = core->getWindowHeight() / 2;
-  }
-
   int onUpdate(int eps) override {
     const auto speed = 0.1;
 
@@ -53,9 +55,16 @@ int main(int argc, char *args[]) {
 
   auto core = new LNCore("LN Engine Test", SCREEN_WIDTH, SCREEN_HEIGHT);
   core->init();
-  auto rectComponent = MyRect(core, 0, 0, 15, 15, Colors::Red);
-  rectComponent.center();
+  auto rectComponent = ControlledRect(core, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2,
+                                      RECT_SIZE, RECT_SIZE, Colors::Red);
+  auto otherRect1 = ConcreteRect(core, DIST_FROM_BORDER, SCREEN_HEIGHT / 2,
+                                 RECT_SIZE, RECT_SIZE, Colors::Gray);
+  auto otherRect2 =
+      ConcreteRect(core, SCREEN_WIDTH - DIST_FROM_BORDER - RECT_SIZE,
+                   SCREEN_HEIGHT / 2, RECT_SIZE, RECT_SIZE, Colors::Gray);
   core->addObject(&rectComponent);
+  core->addObject(&otherRect1);
+  core->addObject(&otherRect2);
 
   core->loop();
   return core->close();
