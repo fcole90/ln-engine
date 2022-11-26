@@ -14,6 +14,10 @@ CheckOptions:
     value:           '1'
   - key:             cppcoreguidelines-non-private-member-variables-in-classes.IgnoreClassesWithAllMemberVariablesBeingPublic
     value:           '1'
+  # This seem to be OK, and makes it easier to write ABC for polimorphic behaviour
+  # https://clang.llvm.org/extra/clang-tidy/checks/cppcoreguidelines/special-member-functions.html#cmdoption-arg-allowsoledefaultdtor
+  - key:             cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor
+    value:           true
   - key:             google-readability-braces-around-statements.ShortStatementLines
     value:           '1'
   - key:             google-readability-function-size.StatementThreshold
