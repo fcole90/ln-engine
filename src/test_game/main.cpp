@@ -25,12 +25,6 @@ public:
   }
 
   int onUpdate(int eps) override {
-    auto sdlRect = SDL_Rect();
-    sdlRect.w = rect.size.x;
-    sdlRect.h = rect.size.y;
-    sdlRect.x = rect.position.x;
-    sdlRect.y = rect.position.y;
-
     const auto speed = 0.1;
 
     auto keys = core->getKeyPressed();
@@ -49,18 +43,6 @@ public:
 
     if ((*keys)[SDLK_RIGHT]) {
       rect.position.x += speed;
-    }
-
-    auto canvas2D = core->getCanvas();
-    canvas2D->fillRect(&sdlRect, canvas2D->getColor(Colors::Red));
-    std::cout << "keys: ";
-    if (keys->size() == 0) {
-      std::cout << "[empty]" << std::endl;
-    } else {
-      for (auto key : *keys) {
-        std::cout << key.first << ": " << key.second << ", ";
-      }
-      std::cout << std::endl;
     }
 
     return 0;

@@ -4,6 +4,7 @@
 #include "../core/Core.h"
 #include "../graphics/Geometry.h"
 #include "./BaseComponents.h"
+#include <iostream>
 
 namespace LNComponents {
 
@@ -18,7 +19,7 @@ public:
                      std::array<Uint8, 4> color)
       : core(core), rect(x, y, w, h), color(color){};
 
-  
+  void render() override;
 };
 
 } // namespace LNComponents

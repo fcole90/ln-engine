@@ -62,7 +62,12 @@ int LNCore::loop() {
       gameObject->onUpdate(tmp_eps);
     }
 
-    // canvas2D->fillRect(&rect, canvas2D->getColor(Colors::Red));
+    // Render objects
+    for (auto gameObject : objectList) {
+      render(gameObject);
+    }
+
+    // Update canvas frame
     canvas2D.update();
 
     // Frame limiter

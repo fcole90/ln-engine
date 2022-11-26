@@ -38,6 +38,10 @@ public:
 
   void addObject(BaseComponent *obj) { objectList.push_back(obj); }
 
+  // Rendering
+  void render(BaseComponent *obj){};
+  void render(GraphicComponent2D *obj) { obj->render(); };
+
   // Getters
   int getWindowHeight() { return height; }
   int getWindowWidth() { return width; }

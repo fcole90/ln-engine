@@ -15,6 +15,6 @@ public:
 /**
  * Interface for all components rendering 2D graphics.
  */
-class GraphicComponent2D : public BaseComponent {};
+class GraphicComponent2D : public BaseComponent, public Renderable2D {};
 
 #endif
