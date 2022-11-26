@@ -9,7 +9,7 @@
 namespace LNComponents {
 
 class RectangleComponent : public GraphicComponent2D {
-protected:
+private:
   LNCore *core;
   Geometry::Rectangle rect;
   std::array<Uint8, 4> color;
@@ -20,6 +20,9 @@ public:
       : core(core), rect(x, y, w, h), color(color){};
 
   void render() override;
+
+  auto getCore() { return &(*core); }
+  auto getRect() { return &rect; }
 };
 
 } // namespace LNComponents
