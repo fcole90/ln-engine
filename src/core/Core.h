@@ -3,7 +3,7 @@
 
 #include "../graphics/Canvas2D.h"
 #include "../input/InputHandler.h"
-#include "./GameObject.h"
+#include "./BaseComponent.h"
 #include <SDL2/SDL.h>
 #include <map>
 #include <string>
@@ -27,7 +27,7 @@ private:
   InputHandler inputHandler;
 
   // Object List
-  std::vector<GameObject *> objectList;
+  std::vector<BaseComponent *> objectList;
 
 public:
   LNCore(std::string window_name, int width, int height);
@@ -36,7 +36,7 @@ public:
   int loop();
   int close();
 
-  void addObject(GameObject *obj) { objectList.push_back(obj); }
+  void addObject(BaseComponent *obj) { objectList.push_back(obj); }
 
   // Getters
   int getWindowHeight() { return height; }

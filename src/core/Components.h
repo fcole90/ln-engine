@@ -3,11 +3,11 @@
 
 #include "../graphics/Geometry.h"
 #include "./Core.h"
-#include "./GameObject.h"
+#include "./BaseComponent.h"
 
 namespace LNComponents {
 
-class RectangleComponent : public GameObject {
+class RectangleComponent : public BaseComponent {
 protected:
   LNCore *core;
   Geometry::Rectangle rect;
