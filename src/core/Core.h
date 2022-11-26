@@ -1,9 +1,9 @@
 #ifndef LNCORE_H
 #define LNCORE_H
 
+#include "../components/BaseComponents.h"
 #include "../graphics/Canvas2D.h"
 #include "../input/InputHandler.h"
-#include "./BaseComponent.h"
 #include <SDL2/SDL.h>
 #include <map>
 #include <string>

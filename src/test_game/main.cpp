@@ -7,7 +7,7 @@
 
 #include <SDL2/SDL.h>
 
-#include "../core/Components.h"
+#include "../components/RectangleComponent.h"
 #include "../core/Core.h"
 #include "../graphics/Colors.h"
 
@@ -16,18 +16,13 @@ constexpr auto SCREEN_HEIGHT = 480;
 // constexpr auto FRAME_LIMIT = 60;
 
 class MyRect : public LNComponents::RectangleComponent {
+  using RectangleComponent::RectangleComponent;
 
 public:
-  MyRect(LNCore *core, float x, float y, float w, float h,
-         std::array<Uint8, 4> color)
-      : RectangleComponent(core, x, y, w, h, color){};
-
   void center() {
     rect.position.x = core->getWindowWidth() / 2;
     rect.position.y = core->getWindowHeight() / 2;
   }
-
-  void render() {}
 
   int onUpdate(int eps) override {
     auto sdlRect = SDL_Rect();
