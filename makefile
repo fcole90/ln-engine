@@ -1,5 +1,5 @@
 # Source files
-SRC_FILES = src/test_game/main.cpp src/core/Core.cpp src/graphics/Canvas2D.cpp
+SRC_FILES := $(shell find ./src/**/*.cpp -printf "%p ")
 
 # Target executable name
 TARGET_NAME = ln_engine
