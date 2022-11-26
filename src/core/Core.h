@@ -3,30 +3,16 @@
 
 #include "../graphics/Canvas2D.h"
 #include "../input/InputHandler.h"
+#include "./GameObject.h"
 #include <SDL2/SDL.h>
 #include <map>
 #include <string>
 #include <vector>
 
-class GameObject {
-protected:
-  GameObject() = default; // 0. Default constructor
-public:
-  virtual ~GameObject() = default;                   // 1. Destructor
-  GameObject(const GameObject &other) = default;     // 2. Copy constructor
-  GameObject(GameObject &&other) noexcept = default; // 3. Move constructor
-  GameObject &
-  operator=(const GameObject &other) = default;       // 4. Copy assignment
-  GameObject &operator=(GameObject &&other) noexcept; // 5. Move assignment
-
-  virtual int onUpdate(int eps) = 0;
-};
-
 class LNCore {
 private:
   // Env
   bool isLoop{true};
-  // InputHandler inputHandler;
 
   // Window
   SDL_Window *window{nullptr};
@@ -50,12 +36,12 @@ public:
   int loop();
   int close();
 
-  void addObject(GameObject *obj) { LNCore::objectList.push_back(obj); }
+  void addObject(GameObject *obj) { objectList.push_back(obj); }
 
   // Getters
-  int getWindowHeight() { return LNCore::height; }
-  int getWindowWidth() { return LNCore::width; }
-  LNCanvas2D *getCanvas() { return &(LNCore::canvas); }
+  int getWindowHeight() { return height; }
+  int getWindowWidth() { return width; }
+  LNCanvas2D *getCanvas() { return &canvas; }
 
   // Input
   auto *getKeyPressed() { return inputHandler.getKeyPressed(); }

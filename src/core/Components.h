@@ -1,6 +1,8 @@
 #ifndef LNCOMPONENTS_H
 #define LNCOMPONENTS_H
 
+#include "../graphics/Geometry.h"
+#include "./Core.h"
 #include "./GameObject.h"
 
 namespace LNComponents {
