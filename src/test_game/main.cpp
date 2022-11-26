@@ -7,15 +7,15 @@
 
 #include <SDL2/SDL.h>
 
+#include "../core/Components.h"
 #include "../core/Core.h"
-#include "../core/GameObject.h"
 #include "../graphics/Colors.h"
 
 constexpr auto SCREEN_WIDTH = 640;
 constexpr auto SCREEN_HEIGHT = 480;
 // constexpr auto FRAME_LIMIT = 60;
 
-class MyRect : public LNObjects::RectangleComponent {
+class MyRect : public LNComponents::RectangleComponent {
 
 public:
   MyRect(LNCore *core, float x, float y, float w, float h,
@@ -36,7 +36,7 @@ public:
     sdlRect.x = rect.position.x;
     sdlRect.y = rect.position.y;
 
-    const auto speed = 1.0;
+    const auto speed = 0.1;
 
     auto keys = core->getKeyPressed();
     // SDL_Event event;
