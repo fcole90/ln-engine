@@ -28,27 +28,6 @@ int LNCore::init() {
   return 0;
 }
 
-int LNCore::handleInput() {
-  // Events management
-  SDL_Event event;
-  while (SDL_PollEvent(&event)) {
-    switch (event.type) {
-    case SDL_QUIT:
-      LNCore::isLoop = false;
-      break;
-
-    case SDL_KEYDOWN:
-      LNCore::keyPressed[event.key.keysym.sym] = true;
-      break;
-    case SDL_KEYUP:
-      LNCore::keyPressed[event.key.keysym.sym] = false;
-      break;
-    }
-  }
-
-  return 0;
-}
-
 int LNCore::loop() {
   auto canvas2D = LNCore::canvas;
   auto objectList = LNCore::objectList;
@@ -65,7 +44,10 @@ int LNCore::loop() {
     current_update = SDL_GetTicks();
     delta = current_update - last_update;
 
-    LNCore::handleInput();
+    LNCore::inputHandler.handleInput();
+    if ((*LNCore::getSpecialEvents())[LNInput::QUIT_EVENT]) {
+      LNCore::isLoop = false;
+    }
 
     // Report update
     constexpr auto ms_to_sec = 1000;

@@ -38,7 +38,7 @@ private:
   LNCanvas2D canvas{nullptr};
 
   // Input
-  std::map<int, bool> keyPressed;
+  InputHandler inputHandler;
 
   // Object List
   std::vector<GameObject *> objectList;
@@ -47,7 +47,6 @@ public:
   LNCore(std::string window_name, int width, int height);
 
   int init();
-  int handleInput();
   int loop();
   int close();
 
@@ -57,7 +56,10 @@ public:
   int getWindowHeight() { return LNCore::height; }
   int getWindowWidth() { return LNCore::width; }
   LNCanvas2D *getCanvas() { return &(LNCore::canvas); }
-  std::map<int, bool> *getKeyPressed() { return &(LNCore::keyPressed); }
+
+  // Input
+  auto *getKeyPressed() { return inputHandler.getKeyPressed(); }
+  auto *getSpecialEvents() { return inputHandler.getSpecialEvents(); }
 };
 
 #endif
