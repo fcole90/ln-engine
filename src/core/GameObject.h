@@ -1,7 +1,7 @@
 #ifndef LNGAME_OBJECT_H
 #define LNGAME_OBJECT_H
 
-#include "../drawing/Geometry.h"
+#include "../graphics/Geometry.h"
 #include "./Core.h"
 #include <array>
 

@@ -9,7 +9,7 @@
 
 #include "../core/Core.h"
 #include "../core/GameObject.h"
-#include "../drawing/Colors.h"
+#include "../graphics/Colors.h"
 
 constexpr auto SCREEN_WIDTH = 640;
 constexpr auto SCREEN_HEIGHT = 480;

@@ -1,7 +1,7 @@
 #ifndef LNCORE_H
 #define LNCORE_H
 
-#include "../drawing/Canvas2D.h"
+#include "../graphics/Canvas2D.h"
 #include <SDL2/SDL.h>
 #include <map>
 #include <string>
@@ -25,6 +25,7 @@ class LNCore {
 private:
   // Env
   bool isLoop{true};
+  // InputHandler inputHandler;
 
   // Window
   SDL_Window *window{nullptr};

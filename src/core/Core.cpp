@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "../drawing/Colors.h"
+#include "../graphics/Colors.h"
 #include <SDL2/SDL_events.h>
 #include <iostream>
 
