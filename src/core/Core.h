@@ -2,6 +2,7 @@
 #define LNCORE_H
 
 #include "../graphics/Canvas2D.h"
+#include "../input/InputHandler.h"
 #include <SDL2/SDL.h>
 #include <map>
 #include <string>
