@@ -5,6 +5,7 @@
 #include "../graphics/Colors.h"
 #include <SDL2/SDL_events.h>
 #include <iostream>
+#include <memory>
 
 LNCore::LNCore(std::string window_name, int width, int height)
     : window_name(std::move(window_name)), width(width), height(height) {}
@@ -64,7 +65,8 @@ int LNCore::loop() {
 
     // Render objects
     for (auto gameComponent : objectList) {
-      auto graphicComponent = dynamic_cast<GraphicComponent2D *>(gameComponent);
+      auto graphicComponent =
+          std::dynamic_pointer_cast<GraphicComponent2D>(gameComponent);
       if (graphicComponent) {
         graphicComponent->render();
       }

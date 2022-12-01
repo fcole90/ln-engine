@@ -6,6 +6,7 @@
 #include "../input/InputHandler.h"
 #include <SDL2/SDL.h>
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -27,7 +28,7 @@ private:
   InputHandler inputHandler;
 
   // Object List
-  std::vector<BaseComponent *> objectList;
+  std::vector<std::shared_ptr<BaseComponent>> objectList;
 
 public:
   LNCore(std::string window_name, int width, int height);
@@ -36,7 +37,9 @@ public:
   int loop();
   int close();
 
-  void addObject(BaseComponent *obj) { objectList.push_back(obj); }
+  void addObject(std::shared_ptr<BaseComponent> obj) {
+    objectList.push_back(obj);
+  }
 
   // Rendering
   void render(BaseComponent *obj){};
