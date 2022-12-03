@@ -2,7 +2,7 @@
 #define RENDERABLE_H
 
 class Renderable2D {
-public:
+ public:
   virtual ~Renderable2D() = default;
   virtual void render() = 0;
 };

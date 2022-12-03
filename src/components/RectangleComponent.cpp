@@ -1,4 +1,5 @@
 #include "./RectangleComponent.h"
+
 #include <iostream>
 
 void LNComponents::RectangleComponent::render() {

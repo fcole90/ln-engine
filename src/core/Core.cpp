@@ -1,14 +1,14 @@
 #include "Core.h"
 
-#include <iostream>
-
-#include "../graphics/Colors.h"
 #include <SDL2/SDL_events.h>
+
 #include <iostream>
 #include <memory>
 
+#include "../graphics/Colors.h"
+
 LNCore::LNCore(std::string window_name, int width, int height)
-    : window_name(std::move(window_name)), width(width), height(height) {}
+  : window_name(std::move(window_name)), width(width), height(height) {}
 
 int LNCore::init() {
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -17,8 +17,13 @@ int LNCore::init() {
   }
 
   LNCore::window = SDL_CreateWindow(
-      LNCore::window_name.c_str(), SDL_WINDOWPOS_UNDEFINED,
-      SDL_WINDOWPOS_UNDEFINED, LNCore::width, LNCore::height, SDL_WINDOW_SHOWN);
+    LNCore::window_name.c_str(),
+    SDL_WINDOWPOS_UNDEFINED,
+    SDL_WINDOWPOS_UNDEFINED,
+    LNCore::width,
+    LNCore::height,
+    SDL_WINDOW_SHOWN
+  );
   if (!LNCore::window) {
     std::cerr << "Could not create SDL Window: " << SDL_GetError() << std::endl;
     return 1;
@@ -65,8 +70,7 @@ int LNCore::loop() {
 
     // Render objects
     for (auto gameComponent : objectList) {
-      auto graphicComponent =
-          std::dynamic_pointer_cast<GraphicComponent2D>(gameComponent);
+      auto graphicComponent = std::dynamic_pointer_cast<GraphicComponent2D>(gameComponent);
       if (graphicComponent) {
         graphicComponent->render();
       }

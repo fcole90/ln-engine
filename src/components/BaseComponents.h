@@ -7,7 +7,7 @@
  * Interface for all components.
  */
 class BaseComponent {
-public:
+ public:
   virtual ~BaseComponent() = default;
   virtual int onUpdate(int eps) = 0;
 };

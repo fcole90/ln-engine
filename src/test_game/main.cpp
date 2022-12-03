@@ -1,11 +1,11 @@
+#include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
+
 #include <iostream>
 #include <iterator>
 #include <memory>
 #include <string>
-
-#include <SDL2/SDL.h>
 
 #include "../components/RectangleComponent.h"
 #include "../core/Core.h"
@@ -25,7 +25,7 @@ class ConcreteRect : public LNComponents::RectangleComponent {
 class ControlledRect : public LNComponents::RectangleComponent {
   using RectangleComponent::RectangleComponent;
 
-public:
+ public:
   int onUpdate(int eps) override {
     const float speed = 0.1;
     auto rect = getRect();
@@ -53,18 +53,17 @@ public:
 };
 
 int main(int argc, char *args[]) {
-
   auto core = new LNCore("LN Engine Test", SCREEN_WIDTH, SCREEN_HEIGHT);
   core->init();
-  core->addObject(std::make_shared<ControlledRect>(core, SCREEN_WIDTH / 2,
-                                                   SCREEN_HEIGHT / 2, RECT_SIZE,
-                                                   RECT_SIZE, Colors::Red));
-  core->addObject(std::make_shared<ConcreteRect>(core, DIST_FROM_BORDER,
-                                                 SCREEN_HEIGHT / 2, RECT_SIZE,
-                                                 RECT_SIZE, Colors::Gray));
+  core->addObject(
+    std::make_shared<ControlledRect>(core, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, RECT_SIZE, RECT_SIZE, Colors::Red)
+  );
+  core->addObject(
+    std::make_shared<ConcreteRect>(core, DIST_FROM_BORDER, SCREEN_HEIGHT / 2, RECT_SIZE, RECT_SIZE, Colors::Gray)
+  );
   core->addObject(std::make_shared<ConcreteRect>(
-      core, SCREEN_WIDTH - DIST_FROM_BORDER - RECT_SIZE, SCREEN_HEIGHT / 2,
-      RECT_SIZE, RECT_SIZE, Colors::Gray));
+    core, SCREEN_WIDTH - DIST_FROM_BORDER - RECT_SIZE, SCREEN_HEIGHT / 2, RECT_SIZE, RECT_SIZE, Colors::Gray
+  ));
 
   core->loop();
   return core->close();

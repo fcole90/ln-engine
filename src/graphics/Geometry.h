@@ -4,19 +4,19 @@
 namespace Geometry {
 
 class Point {
-public:
+ public:
   float x;
   float y;
   Point(float x, float y) : x(x), y(y){};
 };
 
 class Rectangle {
-public:
+ public:
   Point position;
   Point size;
   Rectangle(float x, float y, float w, float h) : position(x, y), size(w, h){};
 };
 
-} // namespace Geometry
+}  // namespace Geometry
 
 #endif

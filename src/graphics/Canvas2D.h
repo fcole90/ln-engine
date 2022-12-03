@@ -1,14 +1,15 @@
 #ifndef LNCANVAS_H
 #define LNCANVAS_H
 #include <SDL2/SDL.h>
+
 #include <array>
 
 class LNCanvas2D {
-private:
+ private:
   SDL_Surface *surface;
   SDL_Window *window;
 
-public:
+ public:
   LNCanvas2D(SDL_Window *window);
   SDL_Surface *getSurface();
   Uint32 getColor(std::array<Uint8, 4> color);
