@@ -65,6 +65,8 @@ int main(int argc, char *args[]) {
     core, SCREEN_WIDTH - DIST_FROM_BORDER - RECT_SIZE, SCREEN_HEIGHT / 2, RECT_SIZE, RECT_SIZE, Colors::Gray
   ));
 
+  std::cout << "Starting..." << std::endl;
   core->loop();
+  std::cout << "Closing..." << std::endl;
   return core->close();
 }

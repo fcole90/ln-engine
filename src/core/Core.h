@@ -1,6 +1,10 @@
 #ifndef LNCORE_H
 #define LNCORE_H
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
 #include <SDL2/SDL.h>
 
 #include <map>
@@ -38,6 +42,8 @@ class LNCore {
   int init();
   int loop();
   int close();
+
+  void mainLoop();
 
   void addObject(std::shared_ptr<BaseComponent> obj) { objectList.push_back(obj); }
 
