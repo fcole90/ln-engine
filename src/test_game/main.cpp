@@ -35,7 +35,7 @@ class Paddle : public LNComponents::RectangleComponent {
     : RectangleComponent::RectangleComponent(core, x, y, w, h, color), side(mode){};
 
   int onUpdate(int eps) override {
-    const float speed = 1.0;
+    const float speed = 0.5;
     auto rect = getRect();
 
     auto UP = side == RIGHT_PLAYER ? SDLK_UP : SDLK_w;
@@ -65,11 +65,11 @@ class Paddle : public LNComponents::RectangleComponent {
           auto ballYCenter = ballRect->position.y + (ballRect->size.y / 2);
 
           if (paddleYCenter > ballYCenter && rect->position.y >= 0) {
-            rect->position.y -= speed * static_cast<float>(eps);
+            rect->position.y -= speed / 2 * static_cast<float>(eps);
           }
 
           if (paddleYCenter < ballYCenter && rect->position.y + rect->size.y <= SCREEN_HEIGHT) {
-            rect->position.y += speed * static_cast<float>(eps);
+            rect->position.y += speed / 2 * static_cast<float>(eps);
           }
         }
       }
@@ -83,8 +83,8 @@ class Ball : public LNComponents::RectangleComponent {
   using RectangleComponent::RectangleComponent;
 
  private:
-  float angle{-PI / 12};
-  float speed{0.15};
+  float angle{0};
+  float speed{0};
 
  public:
   void reflectAngleX() { angle = atan2(sin(angle), -cos(angle)); }
@@ -98,9 +98,9 @@ class Ball : public LNComponents::RectangleComponent {
 
   void reset() {
     center();
-    auto innerAngle = rand() % 2 < 1 ? -PI / 12.0 : PI / 12.0;
+    auto innerAngle = rand() % 2 < 1 ? -PI * (5.0 / 6.0) : PI * (5.0 / 6.0);
     angle = rand() % 2 < 1 ? innerAngle : innerAngle + PI;
-    speed = speed < 1.0f ? speed * 1.05f : speed;
+    speed = 0.35f;
   }
 
   int onUpdate(int eps) override {
@@ -115,6 +115,7 @@ class Ball : public LNComponents::RectangleComponent {
       if (paddle) {
         if (isCollisionAABB(paddle)) {
           reflectAngleX();
+          speed = speed < 1.0f ? speed * 1.015f : speed;
         }
       }
     }
@@ -152,6 +153,7 @@ class Scene : public BaseComponent {
       RIGHT_PLAYER
     );
     ball = std::make_shared<Ball>(core, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, RECT_SIZE, RECT_SIZE, Colors::Red);
+    ball->reset();
 
     core->addObject(leftPaddle);
     core->addObject(rightPaddle);
