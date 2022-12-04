@@ -70,8 +70,9 @@ class Ball : public LNComponents::RectangleComponent {
 
   void reset() {
     center();
-    angle = rand() % 2 > 1 ? -PI / 12 : (-PI / 12) + PI;
-    speed = speed < 20.0f ? speed * 1.05f : speed;
+    auto innerAngle = rand() % 2 < 1 ? -PI / 12.0 : PI / 12.0;
+    angle = rand() % 2 < 1 ? innerAngle : innerAngle + PI;
+    speed = speed < 1.0f ? speed * 1.05f : speed;
   }
 
   int onUpdate(int eps) override {
@@ -128,6 +129,7 @@ class Scene : public BaseComponent {
     core->addObject(rightPaddle);
     core->addObject(ball);
   };
+
   int onUpdate(int eps) override {
     // Scored left
     if (ball->getRect()->position.x < -DIST_FROM_BORDER) {
