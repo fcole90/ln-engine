@@ -18,7 +18,15 @@ jobs:
         run: sudo apt install build-essential clang libsdl2-dev
 
       - name: Install emscripten
-        run: sudo apt install emscripten
+        run: |
+          sudo apt install git
+          git clone https://github.com/emscripten-core/emsdk.git
+          cd emsdk
+          git pull
+          ./emsdk install latest
+          ./emsdk activate latest
+          source ./emsdk_env.sh
+          cd ..
 
       - name: Compile to WebAssembly
         run: make build-web
