@@ -1,9 +1,0 @@
-# Cache
-.cache
-
-# Output dirs
-bin
-out
-
-# We produce that on the fly
-compile_commands.json
