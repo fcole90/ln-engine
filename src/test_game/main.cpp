@@ -27,7 +27,7 @@ class ControlledRect : public LNComponents::RectangleComponent {
 
  public:
   int onUpdate(int eps) override {
-    const float speed = 0.1;
+    const float speed = 10.0;
     auto rect = getRect();
 
     auto keys = getCore()->getKeyPressed();
