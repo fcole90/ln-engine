@@ -57,7 +57,7 @@ bin/web:
 	mkdir -p ./bin/web
 
 build-web: bin/web
-	em++ $(COMPILER_FLAGS) $(SRC_FILES) -s USE_SDL=2 -o bin/web/$(TARGET_NAME).html
+	em++ $(COMPILER_FLAGS) $(SRC_FILES) -s USE_SDL=2 -o bin/web/index.html
 
 run-web:
 	emrun ./bin/web/ln_engine.html
