@@ -22,9 +22,13 @@ constexpr auto DIST_FROM_BORDER = 5;
 constexpr auto LEFT_PLAYER = 0;
 constexpr auto RIGHT_PLAYER = 1;
 
+class Ball;
+class Paddle;
+
 class Paddle : public LNComponents::RectangleComponent {
  private:
   int side{0};
+  bool isBot{true};
 
  public:
   Paddle(LNCore *core, float x, float y, float w, float h, std::array<Uint8, 4> color, int mode)
@@ -38,13 +42,37 @@ class Paddle : public LNComponents::RectangleComponent {
     auto DOWN = side == RIGHT_PLAYER ? SDLK_DOWN : SDLK_s;
 
     auto keys = getCore()->getKeyPressed();
-    // SDL_Event event;
-    if ((*keys)[UP] && rect->position.y >= 0) {
-      rect->position.y -= speed * static_cast<float>(eps);
+
+    if ((*keys)[UP] || (*keys)[DOWN]) {
+      isBot = false;
     }
 
-    if ((*keys)[DOWN] && rect->position.y + rect->size.y <= SCREEN_HEIGHT) {
-      rect->position.y += speed * static_cast<float>(eps);
+    if (!isBot) {
+      if ((*keys)[UP] && rect->position.y >= 0) {
+        rect->position.y -= speed * static_cast<float>(eps);
+      }
+
+      if ((*keys)[DOWN] && rect->position.y + rect->size.y <= SCREEN_HEIGHT) {
+        rect->position.y += speed * static_cast<float>(eps);
+      }
+    } else {
+      for (auto gameComponent : *getCore()->getObjectList()) {
+        auto ball = std::dynamic_pointer_cast<Ball>(gameComponent);
+        if (ball) {
+          auto ballRect = std::static_pointer_cast<RectangleComponent>(ball)->getRect();
+
+          auto paddleYCenter = rect->position.y + (rect->size.y / 2);
+          auto ballYCenter = ballRect->position.y + (ballRect->size.y / 2);
+
+          if (paddleYCenter > ballYCenter && rect->position.y >= 0) {
+            rect->position.y -= speed * static_cast<float>(eps);
+          }
+
+          if (paddleYCenter < ballYCenter && rect->position.y + rect->size.y <= SCREEN_HEIGHT) {
+            rect->position.y += speed * static_cast<float>(eps);
+          }
+        }
+      }
     }
 
     return 0;
@@ -150,7 +178,7 @@ class Scene : public BaseComponent {
 };
 
 int main(int argc, char *args[]) {
-  auto core = new LNCore("LN Engine Test", SCREEN_WIDTH, SCREEN_HEIGHT);
+  auto core = new LNCore("LN Engine Pong Test", SCREEN_WIDTH, SCREEN_HEIGHT);
   core->init();
   core->addObject(std::make_shared<Scene>(core));
   std::cout << "Starting..." << std::endl;
