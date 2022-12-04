@@ -29,7 +29,9 @@ jobs:
           cd ..
 
       - name: Compile to WebAssembly
-        run: make build-web
+        run: |
+          source ./emsdk_env.sh
+          make build-web
       
       - name: Check files
         run: tree
