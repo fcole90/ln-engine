@@ -1,9 +1,11 @@
 #include <SDL2/SDL_keycode.h>
 
 #include <cmath>
+#include <cstdlib>
 #include <iostream>
 #include <memory>
 #include <ostream>
+#include <utility>
 
 #include "../components/RectangleComponent.h"
 #include "../core/Core.h"
@@ -17,28 +19,31 @@ constexpr auto RECT_SIZE = 15;
 constexpr auto PADDLE_HEIGHT = 5 * RECT_SIZE;
 constexpr auto DIST_FROM_BORDER = 5;
 
+constexpr auto LEFT_PLAYER = 0;
+constexpr auto RIGHT_PLAYER = 1;
+
 class Paddle : public LNComponents::RectangleComponent {
  private:
-  int mode{0};
+  int side{0};
 
  public:
   Paddle(LNCore *core, float x, float y, float w, float h, std::array<Uint8, 4> color, int mode)
-    : RectangleComponent::RectangleComponent(core, x, y, w, h, color), mode(mode){};
+    : RectangleComponent::RectangleComponent(core, x, y, w, h, color), side(mode){};
 
   int onUpdate(int eps) override {
     const float speed = 1.0;
     auto rect = getRect();
 
-    auto UP = mode == 0 ? SDLK_UP : SDLK_w;
-    auto DOWN = mode == 0 ? SDLK_DOWN : SDLK_s;
+    auto UP = side == RIGHT_PLAYER ? SDLK_UP : SDLK_w;
+    auto DOWN = side == RIGHT_PLAYER ? SDLK_DOWN : SDLK_s;
 
     auto keys = getCore()->getKeyPressed();
     // SDL_Event event;
-    if ((*keys)[UP]) {
+    if ((*keys)[UP] && rect->position.y >= 0) {
       rect->position.y -= speed * static_cast<float>(eps);
     }
 
-    if ((*keys)[DOWN]) {
+    if ((*keys)[DOWN] && rect->position.y + rect->size.y <= SCREEN_HEIGHT) {
       rect->position.y += speed * static_cast<float>(eps);
     }
 
@@ -56,6 +61,18 @@ class Ball : public LNComponents::RectangleComponent {
  public:
   void reflectAngleX() { angle = atan2(sin(angle), -cos(angle)); }
   void reflectAngleY() { angle = atan2(-sin(angle), cos(angle)); }
+
+  void center() {
+    auto rect = getRect();
+    rect->position.x = SCREEN_WIDTH / 2 + rect->size.x / 2;
+    rect->position.y = SCREEN_HEIGHT / 2 + rect->size.y / 2;
+  }
+
+  void reset() {
+    center();
+    angle = rand() % 2 > 1 ? -PI / 12 : (-PI / 12) + PI;
+    speed = speed < 20.0f ? speed * 1.05f : speed;
+  }
 
   int onUpdate(int eps) override {
     auto ballRect = getRect();
@@ -82,17 +99,58 @@ class Ball : public LNComponents::RectangleComponent {
   };
 };
 
+class Scene : public BaseComponent {
+  LNCore *core;
+  std::shared_ptr<Paddle> leftPaddle;
+  std::shared_ptr<Paddle> rightPaddle;
+  std::shared_ptr<Ball> ball;
+
+  int leftScore{0};
+  int rightScore{0};
+
+ public:
+  Scene(LNCore *core) : core(core) {
+    leftPaddle = std::make_shared<Paddle>(
+      core, DIST_FROM_BORDER, SCREEN_HEIGHT / 2, RECT_SIZE, PADDLE_HEIGHT, Colors::Gray, LEFT_PLAYER
+    );
+    rightPaddle = std::make_shared<Paddle>(
+      core,
+      SCREEN_WIDTH - DIST_FROM_BORDER - RECT_SIZE,
+      SCREEN_HEIGHT / 2,
+      RECT_SIZE,
+      PADDLE_HEIGHT,
+      Colors::Gray,
+      RIGHT_PLAYER
+    );
+    ball = std::make_shared<Ball>(core, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, RECT_SIZE, RECT_SIZE, Colors::Red);
+
+    core->addObject(leftPaddle);
+    core->addObject(rightPaddle);
+    core->addObject(ball);
+  };
+  int onUpdate(int eps) override {
+    // Scored left
+    if (ball->getRect()->position.x < -DIST_FROM_BORDER) {
+      rightScore += 1;
+      std::cout << "Score: " << leftScore << " - " << rightScore << std::endl;
+      ball->reset();
+    }
+
+    // Scored right
+    if (ball->getRect()->position.x > DIST_FROM_BORDER + SCREEN_WIDTH) {
+      leftScore += 1;
+      std::cout << "Score: " << leftScore << " - " << rightScore << std::endl;
+      ball->reset();
+    }
+
+    return 0;
+  }
+};
+
 int main(int argc, char *args[]) {
   auto core = new LNCore("LN Engine Test", SCREEN_WIDTH, SCREEN_HEIGHT);
   core->init();
-  core->addObject(std::make_shared<Ball>(core, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, RECT_SIZE, RECT_SIZE, Colors::Red));
-  core->addObject(
-    std::make_shared<Paddle>(core, DIST_FROM_BORDER, SCREEN_HEIGHT / 2, RECT_SIZE, PADDLE_HEIGHT, Colors::Gray, 1)
-  );
-  core->addObject(std::make_shared<Paddle>(
-    core, SCREEN_WIDTH - DIST_FROM_BORDER - RECT_SIZE, SCREEN_HEIGHT / 2, RECT_SIZE, PADDLE_HEIGHT, Colors::Gray, 0
-  ));
-
+  core->addObject(std::make_shared<Scene>(core));
   std::cout << "Starting..." << std::endl;
   core->loop();
   std::cout << "Closing..." << std::endl;
