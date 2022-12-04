@@ -61,6 +61,7 @@ class LNCore {
   // Input
   auto *getKeyPressed() { return inputHandler.getKeyPressed(); }
   auto *getSpecialEvents() { return inputHandler.getSpecialEvents(); }
+  auto *getObjectList() { return &objectList; }
 };
 
 #endif

@@ -21,6 +21,9 @@ class RectangleComponent : public GraphicComponent2D {
 
   void render() override;
 
+  bool isCollisionAABB(std::shared_ptr<RectangleComponent> component);
+
+  // Getters
   auto getCore() { return &(*core); }
   auto getRect() { return &rect; }
 };

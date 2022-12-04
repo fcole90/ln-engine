@@ -60,7 +60,7 @@ build-web: bin/web
 	em++ $(COMPILER_FLAGS) $(SRC_FILES) -s USE_SDL=2 -o bin/web/index.html
 
 run-web:
-	emrun ./bin/web/ln_engine.html
+	emrun ./bin/web/index.html
 
 build-and-run-web: build-web run-web
 
