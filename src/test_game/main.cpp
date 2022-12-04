@@ -27,25 +27,25 @@ class ControlledRect : public LNComponents::RectangleComponent {
 
  public:
   int onUpdate(int eps) override {
-    const float speed = 10.0;
+    const float speed = 1.0;
     auto rect = getRect();
 
     auto keys = getCore()->getKeyPressed();
     // SDL_Event event;
     if ((*keys)[SDLK_UP]) {
-      rect->position.y -= speed;
+      rect->position.y -= speed * static_cast<float>(eps);
     }
 
     if ((*keys)[SDLK_DOWN]) {
-      rect->position.y += speed;
+      rect->position.y += speed * static_cast<float>(eps);
     }
 
     if ((*keys)[SDLK_LEFT]) {
-      rect->position.x -= speed;
+      rect->position.x -= speed * static_cast<float>(eps);
     }
 
     if ((*keys)[SDLK_RIGHT]) {
-      rect->position.x += speed;
+      rect->position.x += speed * static_cast<float>(eps);
     }
 
     return 0;

@@ -35,11 +35,11 @@ int LNCore::init() {
 }
 
 void LNCore::mainLoop() {
-  std::cout << "Loop!" << std::endl;
-  // Keep track of time
-  // last_update = current_update;
-  // current_update = SDL_GetTicks();
-  // delta = current_update - last_update;
+  // Compute eps
+  auto currentTick = SDL_GetTicks();
+  auto eps = currentTick - LNCore::lastTick;
+  LNCore::lastTick = currentTick;
+
   auto canvas2D = LNCore::canvas;
 
   LNCore::inputHandler.handleInput();
@@ -47,17 +47,12 @@ void LNCore::mainLoop() {
     LNCore::isLoop = false;
   }
 
-  // Report update
-  // constexpr auto ms_to_sec = 1000;
-  // std::cout << "FPS: " << 1.0 / delta * ms_to_sec << std::endl;
-
   // Game update
   canvas2D.fillRect(nullptr, canvas2D.getColor(Colors::White));
 
   // Update objects
   for (auto gameComponent : objectList) {
-    constexpr auto tmp_eps = 1;
-    gameComponent->onUpdate(tmp_eps);
+    gameComponent->onUpdate(static_cast<int>(eps));
   }
 
   // Render objects

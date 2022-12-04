@@ -20,6 +20,8 @@ class LNCore {
  private:
   // Env
   bool isLoop{true};
+  // Current time start time
+  Uint32 lastTick{0};
 
   // Window
   SDL_Window *window{nullptr};
